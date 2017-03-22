@@ -1,0 +1,338 @@
+html
+  head
+    title Utrecht Leidsche Rijn 
+
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='https://fonts.googleapis.com/css?family=Chonburi', rel='stylesheet')
+
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+    link(type='text/css' rel='stylesheet', href='/../css/style.css')
+    
+    script(type='text/javascript', src='/../js/jquery-3.1.1.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+
+  body
+    .navbar-wrapper
+      nav.navbar.navbar-inverse.navbar-static-top
+        .navbar-header
+            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+            |  
+            a.navbar-brand(href='/home') Gather-Leidsche-Rjin
+        #navbar.navbar-collapse.collapse
+            ul.nav.navbar-nav
+                li.active
+                  a(href='/home') About
+                li
+                  a(href='/setup') SetUp New Event!
+                li
+                  a(href='#contact_form') Contact
+
+            .navbar-right
+                button#signup(onclick="document.getElementById('id01').style.display='block'") SIGN UP
+                #id01.modal
+                    form.modal-content.animate#signupForm(method='POST', action='/signup')
+                      span.close(onclick="document.getElementById('id01').style.display='none'", title='Close Modal') &times;
+                      |  
+                      .container
+                        label
+                          b Username
+                        |  
+                        input(id='signupusername', type='text', placeholder='Enter Username', name='username', required)
+                        label
+                          b Email
+                        |  
+                        input(id='signupemail', type='text', placeholder='Enter Email', name='email', required)
+                        |  
+                        label
+                          b Password
+                        |  
+                        input(id='signuppassword', type='password', placeholder='Enter Password', name='password', required)
+                        .clearfix
+                          button.signupbtn(type='submit') Sign Up
+                          |
+                          button.cancelbtn(type='button', onclick="document.getElementById('id01').style.display='none'") Cancel
+
+            .navbar-right
+                button.test#login(onclick="document.getElementById('id02').style.display='block'") LOGIN
+                #id02.modal
+                    form.modal-content.animate#loginForm(method='POST', action='/login')
+                      .imgcontainer
+                        span.close(onclick="document.getElementById('id02').style.display='none'", title='Close Modal') &times;
+                        |  
+                      .container
+                        label
+                          b Email
+                        |  
+                        input(id='loginemail', type='text', placeholder='Enter Email', name='email', required)
+                        |  
+                        label
+                          b Password
+                        |  
+                        input(id='loginpassword', type='password', placeholder='Enter Password', name='password', required)
+                        |  
+                        button.signupbtn(type='submit', id="loginbutton") Login
+                        |  
+                        button.cancelbtn(type='button', onclick="document.getElementById('id02').style.display='none'") Cancel
+
+    div.panelCarousel
+        .container
+            #myCarousel.carousel.slide(data-ride='carousel')
+              ol.carousel-indicators
+                li.active(data-target='#myCarousel', data-slide-to='0')
+                li(data-target='#myCarousel', data-slide-to='1')
+                li(data-target='#myCarousel', data-slide-to='2')
+              .carousel-inner(role='listbox')
+                .item.active
+                  img(src='/../img/station.jpg', alt='Utrecht Leidsche Rijn Station')
+                  .carousel-caption
+                    h3 Utrecht Leidsche Rijn Station
+                    p Three minutes by train from Utrecht Centrum. Super convenience!
+                .item
+                  img(src='/../img/cinemac.jpg', alt='Utrecht Leidsche Rijn Cinemac')
+                  .carousel-caption
+                    h3 Utrecht Leidsche Rijn Cinemac
+                    p Luxury cinema makes your life better!
+                .item
+                  img(src='/../img/winkel.jpg', alt='Utrecht Terwijde Winkel Centrum')
+                  .carousel-caption
+                    h3 Utrecht Terwijde Winkel Centrum
+                    p All you can find in this area.
+              a.left.carousel-control(href='#myCarousel', role='button', data-slide='prev')
+                span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+                |  
+                span.sr-only Previous
+              a.right.carousel-control(href='#myCarousel', role='button', data-slide='next')
+                span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+                |  
+                span.sr-only Next
+
+    div.panelBulletin
+        .container 
+            p.bg-info Come to join whatever event you like in the neighbourhood Utrecht Leidsche Rijn! Set up a fun activity through our fancy website, which makes both your like and others' life richness!
+            p.bg-success All the events occured recently or going to happen around corner:
+            if magicKey
+            each item in magicKey
+              h3 * #{item.subject}: #{item.brief}
+
+    div.panelGooglemaps#googleMap
+      |  &nbsp;     
+      script.
+        function initMap() {
+          var directionsDisplay = new google.maps.DirectionsRenderer;
+          var directionsService = new google.maps.DirectionsService;
+          // Create a map and center it on Leidsche Rijn station
+          var mapProp= {
+            center: new google.maps.LatLng(52.098884,5.065143),
+            zoom:12,
+          }      
+          var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+          directionsDisplay.setMap(map);
+            markerA = new google.maps.Marker({
+                position: new google.maps.LatLng(52.098884,5.065143),
+                title: 'Leidsche Rijn',
+                map:map
+          })
+        }
+
+    div.panelContact
+      form#contact_form.well.form-horizontal(action='/home ', method='post')
+        fieldset
+          legend Contact Us Today!
+          .form-group
+            label.col-md-4.control-label First Name
+            .col-md-4.inputGroupContainer
+              .input-group
+                span.input-group-addon
+                  i.glyphicon.glyphicon-user
+                |  
+                input.form-control(name='first_name', placeholder='First Name', type='text')
+          .form-group
+            label.col-md-4.control-label Last Name
+            .col-md-4.inputGroupContainer
+              .input-group
+                span.input-group-addon
+                  i.glyphicon.glyphicon-user
+                |  
+                input.form-control(name='last_name', placeholder='Last Name', type='text')
+          .form-group
+            label.col-md-4.control-label E-Mail
+            .col-md-4.inputGroupContainer
+              .input-group
+                span.input-group-addon
+                  i.glyphicon.glyphicon-envelope
+                |  
+                input.form-control(name='email', placeholder='E-Mail Address', type='text')
+          .form-group
+            label.col-md-4.control-label Phone 
+            .col-md-4.inputGroupContainer
+              .input-group
+                span.input-group-addon
+                  i.glyphicon.glyphicon-earphone
+                |  
+                input.form-control(name='phone', placeholder='(31)555-333-222', type='text')
+          .form-group
+            label.col-md-4.control-label Message
+            .col-md-4.inputGroupContainer
+              .input-group
+                span.input-group-addon
+                  i.glyphicon.glyphicon-pencil
+                textarea.form-control(name='comment', placeholder='Message')
+          #success_message.alert.alert-success(role='alert')
+            | Success
+            i.glyphicon.glyphicon-thumbs-up
+            |  Thanks for contacting us, we will get back to you shortly.
+          .form-group
+            label.col-md-4.control-label
+            .col-md-4
+              button.btn.btn-warning(type='submit')
+                | Send
+                span.glyphicon.glyphicon-send
+
+    script.
+      $(document).ready(function() {
+        $('#contact_form').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            first_name: {
+                validators: {
+                        stringLength: {
+                        min: 2,
+                    },
+                        notEmpty: {
+                        message: 'Please supply your first name'
+                    }
+                }
+            },
+             last_name: {
+                validators: {
+                     stringLength: {
+                        min: 2,
+                    },
+                    notEmpty: {
+                        message: 'Please supply your last name'
+                    }
+                }
+            },
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please supply your email address'
+                    },
+                    emailAddress: {
+                        message: 'Please supply a valid email address'
+                    }
+                }
+            },
+            phone: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please supply your phone number'
+                    },
+                    phone: {
+                        country: 'US',
+                        message: 'Please supply a vaild phone number with area code'
+                    }
+                }
+            },
+            comment: {
+                validators: {
+                      stringLength: {
+                        min: 10,
+                        max: 200,
+                        message:'Please enter at least 10 characters and no more than 200'
+                    },
+                    notEmpty: {
+                        message: 'Please supply a message'
+                    }
+                    }
+                }
+            }
+        })
+        .on('success.form.bv', function(e) {
+            $('#success_message').slideDown({ opacity: "show" }, "slow") // Do something ...
+                $('#contact_form').data('bootstrapValidator').resetForm();
+
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            // Use Ajax to submit form data
+            $.post($form.attr('action'), $form.serialize(), function(result) {
+                console.log(result);
+            }, 'json');
+            });
+        });     
+
+    button#myBtn(onclick='topFunction()', title='Go to top') Top
+    script.
+      // When the user scrolls down 20px from the top of the document, show the button
+      window.onscroll = function() {scrollFunction()};
+      function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      document.getElementById("myBtn").style.display = "block";
+      } else {
+      document.getElementById("myBtn").style.display = "none";
+      }
+      }
+      // When the user clicks on the button, scroll to the top of the document
+      function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+      }
+
+    footer.footer-distributed
+      .footer-left
+        h3
+          img#logobottom(src='/../img/gather.jpg', alt='', width='120', hight='120')
+        br
+        br
+        p.footer-company-name Gather-Leidsche-Rijn &copy; 2017
+      .footer-center
+        div
+          i.fa.fa-map-marker
+          p
+            span Pieter d' Hontlaan
+            |  Utrecht, Netherlands
+        div
+          i.fa.fa-phone
+          p +316 59419239
+        div
+          i.fa.fa-envelope
+          p
+            a(href='mailto:annecyjx@gmail.com') annecyjx@gmail.com
+      .footer-right
+        p.footer-company-about
+          span About the company
+
+          |  This great website was created to gather people who lives in Leidsche Rijn area. Share life and happiness. Thank you to Xuan!
+
+        .footer-icons
+          a(href='#')
+            i.fa.fa-facebook
+          a(href='#')
+            i.fa.fa-twitter
+          a(href='#')
+            i.fa.fa-linkedin
+          a(href='#')
+            i.fa.fa-github
+
+  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyA9hyb7Hz8M7ZgAoJyXThHFx5951myltTI&callback=initMap')
+  //- script(src='https://code.jquery.com/jquery.js')
+  //- script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+  //- script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js')
+    
