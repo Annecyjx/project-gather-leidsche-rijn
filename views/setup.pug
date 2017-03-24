@@ -25,11 +25,10 @@ html
         #navbar.navbar-collapse.collapse
             ul.nav.navbar-nav
                 li
-                  a(href='/home') About
+                  a(href='/home') All Events
                 li.active
                   a(href='/setup') SetUp New Event!
-                li
-                  a(href='#contact_form') Contact
+
 
             .navbar-right
                 button#signup(onclick="document.getElementById('id01').style.display='block'") SIGN UP
@@ -78,7 +77,48 @@ html
                         |  
                         button.cancelbtn(type='button', onclick="document.getElementById('id02').style.display='none'") Cancel
 
+    .container
+      p.setupFormTitle Fill the form and set up a new event
+      form#setupEventForm
+        .form-group
+          label(for='inputSubject') Subject：
+          |  
+          input#inputSubject.form-control(type='text', autocomplete="off", placeholder='subject of your event...')
+        .form-group
+          label(for='inputBrief') Event Brief：
+          |  
+          input#inputBrief.form-control(type='text', autocomplete="off", placeholder='better to include the date here...')
+        .form-group
+          label(for='inputLat') Latitude of Event Location：
+          |  
+          input#inputLat.form-control(type='number', step='0.000001', autocomplete="off",placeholder='please check latitude of the location on Googlemaps...')
+        .form-group
+          label(for='inputLng') Longitude of Event Location：
+          |  
+          input#inputLat.form-control(type='number',step='0.000001', autocomplete="off",placeholder='please check longtitude of the location on Googlemaps...')
+        .form-group
+          label(for='inputDescription') Event Details：
+          textarea#inputDescription.form-control(rows='10', placeholder='more details of your event...',autocomplete="off")
+        |  
+        button.btn.btn-primary(type='submit') Submit
+
+
     button#myBtn(onclick='topFunction()', title='Go to top') Top
+    script.
+      // When the user scrolls down 20px from the top of the document, show the button
+      window.onscroll = function() {scrollFunction()};
+      function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      document.getElementById("myBtn").style.display = "block";
+      } else {
+      document.getElementById("myBtn").style.display = "none";
+      }
+      }
+      // When the user clicks on the button, scroll to the top of the document
+      function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+      }
 
     footer.footer-distributed
       .footer-left

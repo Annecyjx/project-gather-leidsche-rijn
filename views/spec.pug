@@ -10,6 +10,7 @@ html
     link(type='text/css' rel='stylesheet', href='/../css/style.css')
     script(type='text/javascript', src='/../js/jquery-3.1.1.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    script(type='text/javascript' src='/../js/custom.js')
 
   body
     .navbar-wrapper
@@ -25,11 +26,9 @@ html
         #navbar.navbar-collapse.collapse
             ul.nav.navbar-nav
                 li
-                  a(href='/home') About
-                li.active
-                  a(href='/setup') SetUp New Event!
+                  a(href='/home') Back to Home
                 li
-                  a(href='#contact_form') Contact
+                  a(href='/setup') SetUp New Event!
 
             .navbar-right
                 button#signup(onclick="document.getElementById('id01').style.display='block'") SIGN UP
@@ -77,8 +76,83 @@ html
                         button.signupbtn(type='submit', id="loginbutton") Login
                         |  
                         button.cancelbtn(type='button', onclick="document.getElementById('id02').style.display='none'") Cancel
+    .container         
+      .header
+        p.specEventTitle The event you are interested in:
+          .eventsubject         
+            p(class='eventId', id=eventInfo.id) #{eventInfo.subject}
+          p#eventbrief #{eventInfo.brief}
+          p#eventdescription #{eventInfo.description}
+
+          h3#jointitle Total participants
+          each join in eventInfo.joins
+            p#joinamount #{join.participants}
+          .row
+            h3#requesttitle How many of you would like to join:
+            .row
+              form#joinForm
+                .input-field.col.s12
+                  input(id='joinInput',type='number', step='1',placeholder='number only',autocomplete="off")
+                .input-field.col.s12
+                  button.btn.btn-primary(type='submit') Join
+
+
+    div.panellocation#locationDetail
+      h2#locationtitle Check the location:
+      h2#hiddenlat #{eventInfo.lat}
+      h2#hiddenlng #{eventInfo.lng}
+
+    div.specGooglemaps#googleMap
+      |  &nbsp;     
+      script.
+        function initMap() {
+          var directionsDisplay = new google.maps.DirectionsRenderer;
+          var directionsService = new google.maps.DirectionsService;
+          // Create a map and center it on Leidsche Rijn station
+          var mapProp= {
+            center: new google.maps.LatLng(52.098884,5.065143),
+            zoom:12,
+          }      
+          var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+          directionsDisplay.setMap(map);
+
+            markerA = new google.maps.Marker({
+                position: new google.maps.LatLng(document.getElementById("hiddenlat").innerHTML,document.getElementById("hiddenlng").innerHTML),
+                label:'WE ARE HERE!',
+                map:map
+          })
+        }
+
+    div.panelcomment
+      .row
+        h3#commenttitle Come to comment:
+        .row
+          form(onsubmit='return validateForm()', name='commentForm',id='commentForm',autocomplete="off")
+            .input-field.col.s12
+              input#body.validate(type='text', name='body',placeholder='how do you think of it?',maxlength=1024, required)
+            .input-field.col.s12
+              button#commentbutton.btn.btn-primary(type='submit') Send         
+
+      each comment in eventInfo.comments
+        p#comment-box #{comment.body}
+        div#result-box
 
     button#myBtn(onclick='topFunction()', title='Go to top') Top
+    script.
+      // When the user scrolls down 20px from the top of the document, show the button
+      window.onscroll = function() {scrollFunction()};
+      function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      document.getElementById("myBtn").style.display = "block";
+      } else {
+      document.getElementById("myBtn").style.display = "none";
+      }
+      }
+      // When the user clicks on the button, scroll to the top of the document
+      function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+      }
 
     footer.footer-distributed
       .footer-left

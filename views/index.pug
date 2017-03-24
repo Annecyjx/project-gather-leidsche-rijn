@@ -27,7 +27,7 @@ html
         #navbar.navbar-collapse.collapse
             ul.nav.navbar-nav
                 li.active
-                  a(href='/home') About
+                  a(href='#bulletin') About
                 li
                   a(href='/setup') SetUp New Event!
                 li
@@ -92,7 +92,7 @@ html
                   img(src='/../img/station.jpg', alt='Utrecht Leidsche Rijn Station')
                   .carousel-caption
                     h3 Utrecht Leidsche Rijn Station
-                    p Three minutes by train from Utrecht Centrum. Super convenience!
+                    p Three minutes by train from Utrecht Centrum. Super convenient!
                 .item
                   img(src='/../img/cinemac.jpg', alt='Utrecht Leidsche Rijn Cinemac')
                   .carousel-caption
@@ -112,13 +112,14 @@ html
                 |  
                 span.sr-only Next
 
-    div.panelBulletin
+    div.panelBulletin#bulletin
         .container 
-            p.bg-info Come to join whatever event you like in the neighbourhood Utrecht Leidsche Rijn! Set up a fun activity through our fancy website, which makes both your like and others' life richness!
-            p.bg-success All the events occured recently or going to happen around corner:
+            h2.about Come to join whatever event you like in the neighbourhood Utrecht Leidsche Rijn! Set up a fun activity through our fancy website, which makes both your and others' life richness!
+            p.bulletintitle Hot events & Welcome to join:
             if magicKey
             each item in magicKey
-              h3 * #{item.subject}: #{item.brief}
+              h3
+                a(href='/spec/?id=' + item.id) * #{item.subject} *  #{item.brief}
 
     div.panelGooglemaps#googleMap
       |  &nbsp;     
@@ -319,7 +320,7 @@ html
         p.footer-company-about
           span About the company
 
-          |  This great website was created to gather people who lives in Leidsche Rijn area. Share life and happiness. Thank you to Xuan!
+          |  This great website was created to gather people who lives in Leidsche Rijn area. Share healthy life style and happiness. Thank you to Xuan!
 
         .footer-icons
           a(href='#')

@@ -1,3 +1,4 @@
+/*index page*/
 body {
     font-family: 'Chonburi', cursive;
     padding: 0px;
@@ -12,6 +13,33 @@ body {
 {
 	font-family: cursive;
 	font-size:17px;
+}
+
+/*about*/
+#bulletin h2 {
+    margin: 30px;
+    padding-right:13px;
+    padding-left:13px;
+    font-family: Verdana;
+    font-size: 23px;
+    color: #2F4F4F;
+}
+
+#bulletin p {
+    margin: 50px;
+    padding-right:13px;
+    padding-left:13px;
+    font-style: italic;
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+    color: #DAA520;
+}
+
+#bulletin a {
+    color:  000000;
+    font-family: cursive;
+    font-size: 20px;
 }
 
 /* just the button, without it being clicked */
@@ -73,9 +101,12 @@ h3 {
 
 #contact_form {
 	margin-left:570px;
-	margin-right: 190px;
+	margin-right: 150px;
 	margin-top: 50px;
 	margin-bottom:20px;
+}
+#contact_form.form-group {
+    margin-left: -15px;
 }
 
 #contact_form legend {
@@ -87,14 +118,15 @@ h3 {
 #contact_form label {
 	font-family: cursive;
 	font-size:17px;
+    padding: 5px;
 }
 
 #contact_form input.form-control {
-	width:250px;
+	width:230px;
 }
 
 #contact_form textarea.form-control{
-	width: 250px;
+	width: 230px;
 }
 
 /*To top button*/
@@ -233,17 +265,19 @@ h3 {
 .footer-distributed .footer-company-about{
     line-height: 20px;
     color:  #92999f;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: normal;
     margin: 0;
+    font-family: cursive;
 }
 
 .footer-distributed .footer-company-about span{
     display: block;
     color:  #ffffff;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    font-family: arial;
 }
 
 .footer-distributed .footer-icons{
@@ -286,4 +320,162 @@ h3 {
         margin-left: 0;
     }
 
+}
+
+
+/*setupEvent page*/
+.setupFormTitle {
+    margin-top: 20px;
+    padding-right:13px;
+    padding-left:13px;
+    font-style: italic;
+    font-size: 27px;
+    text-align: center;
+    color: #DAA520;
+}
+#setupEventForm{
+    margin-top: 25px;
+}
+#setupEventForm label{
+   font-family: Arial, Helvetica, sans-serif;
+   font-size:18px;
+   padding-left:5px;
+}
+#inputLat {
+    width: 500px;
+}
+#setupEventForm input {
+    font-family: cursive;
+    font-size:15px;
+}
+#inputDescription {
+    font-family: cursive;
+    font-size:15px;
+}
+.btn.btn-primary {
+    background-color: #DAA520;
+}
+
+/*spec page*/
+.specEventTitle {
+    margin-top: 20px;
+    padding-right:13px;
+    font-style: italic;
+    font-size: 19px;
+    text-align: left;
+    color: #DAA520;
+}
+.eventsubject{
+    font-variant: small-caps;
+    text-align: center;
+    font-size: 26px;
+    color:black; 
+}
+#eventbrief {
+    font-variant: small-caps;
+    text-align: center;
+    font-size: 15px;    
+    font-style: oblique;
+}
+#eventdescription{
+    font-size: 18px; 
+    font-family: cursive;
+    margin: 20px;
+}
+
+#jointitle {
+    font-variant: small-caps;
+    font-size:25px;
+    font-family: Verdana, sans-serif;
+    color: #B0C4DE;
+    margin-top: 50px;
+    font-weight: bold;
+    text-align: center;
+}
+#joinamount {
+    color: #B0C4DE;
+    font-size: 50px;
+    font-family: Trebuchet MS, sans-serif;
+    text-align: center;
+}
+#requesttitle {
+    font-variant: small-caps;
+    font-size:22px;
+    font-family: Verdana, sans-serif;
+    color: #DAA520;
+    text-align: center;
+}
+#joinForm {
+    text-align: center;
+    margin: 10px;
+}
+#joinInput {
+    border: 2px solid #DAA520;
+    border-radius: 7px;
+    text-align: center;
+    height: 40px;
+    width: 200px;
+    font-family:cursive;
+    color:#DAA520;
+    font-size: 20px;
+}
+.btn.btn-primary {
+    font-family:cursive;
+    font-size: 20px;
+    margin: 7px;
+}
+
+
+#hiddenlat {
+    display: none;
+}
+#hiddenlng {
+    display: none;
+}
+#locationtitle {
+    font-variant: small-caps;
+    font-size:25px;
+    font-family: Verdana, sans-serif;
+    color: #DAA520;
+    margin: 30px 18px;
+    text-align: center;
+}
+#googleMap.specGooglemaps{
+    margin: auto;
+    width: 40%;
+}
+
+.panelcomment{
+    margin:60px 230px;
+}
+#commenttitle {
+    font-variant: small-caps;
+    font-size:22px;
+    font-family: Verdana, sans-serif;
+    color: #DAA520;
+    margin: 30px 18px;
+}
+#body.validate {
+    border: 2px solid #DAA520;
+    border-radius: 7px;
+    text-align: center;
+    height: 80px;
+    width: 97%;
+    font-family:cursive;
+    color:#DAA520;
+    font-size: 20px;
+    margin-left: 30px;
+}
+#commentbutton {
+    float: right;
+}
+#comment-box {
+    font-size: 18px; 
+    font-family: cursive;
+    margin: 10px;    
+}
+#result-box {
+    font-size: 18px; 
+    font-family: cursive;
+    margin: 10px;
 }
