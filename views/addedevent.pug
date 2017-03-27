@@ -3,14 +3,20 @@ html
     title Utrecht Leidsche Rijn 
 
     meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1')    
+    meta(name='viewport', content='width=device-width, initial-scale=1')
     link(href='https://fonts.googleapis.com/css?family=Chonburi', rel='stylesheet')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
     link(type='text/css' rel='stylesheet', href='/../css/style.css')
     script(type='text/javascript', src='/../js/jquery-3.1.1.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
-    script(type='text/javascript' src='/../js/custom.js')
+    style.
+      .footer-distributed {
+        position:absolute; bottom:0px;
+      }
+      .setupFormTitle {
+        margin-top:10%;
+      }
 
   body
     .navbar-wrapper
@@ -26,9 +32,10 @@ html
         #navbar.navbar-collapse.collapse
             ul.nav.navbar-nav
                 li
-                  a(href='/home') Back to Home
-                li
+                  a(href='/home') All Events
+                li.active
                   a(href='/setup') SetUp New Event!
+
 
             .navbar-right
                 button#signup(onclick="document.getElementById('id01').style.display='block'") SIGN UP
@@ -76,66 +83,10 @@ html
                         button.signupbtn(type='submit', id="loginbutton") Login
                         |  
                         button.cancelbtn(type='button', onclick="document.getElementById('id02').style.display='none'") Cancel
-    .container         
-      .header
-        p.specEventTitle The event you are interested in:
-          .eventsubject         
-            p(class='eventId', id=eventInfo.id) #{eventInfo.subject}
-          p#eventbrief #{eventInfo.brief}
-          p#eventdescription #{eventInfo.description}
 
-          h3#jointitle Total participants
-          each join in eventInfo.joins
-            p#joinamount #{join.participants}
-          .row
-            h3#requesttitle How many of you would like to join:
-            .row
-              form#joinForm
-                .input-field.col.s12
-                  input(id='joinInput',type='number', step='1',placeholder='number only',autocomplete="off")
-                .input-field.col.s12
-                  button.btn.btn-primary(type='submit') Join
+    .container
+      p.setupFormTitle You have added a new event successfully!
 
-
-    div.panellocation#locationDetail
-      h2#locationtitle Check the location:
-      h2#hiddenlat #{eventInfo.lat}
-      h2#hiddenlng #{eventInfo.lng}
-
-    div.specGooglemaps#googleMap
-      |  &nbsp;     
-      script.
-        function initMap() {
-          var directionsDisplay = new google.maps.DirectionsRenderer;
-          var directionsService = new google.maps.DirectionsService;
-          // Create a map and center it on Leidsche Rijn station
-          var mapProp= {
-            center: new google.maps.LatLng(document.getElementById("hiddenlat").innerHTML,document.getElementById("hiddenlng").innerHTML),
-            zoom:12,
-          }      
-          var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-          directionsDisplay.setMap(map);
-
-            markerA = new google.maps.Marker({
-                position: new google.maps.LatLng(document.getElementById("hiddenlat").innerHTML,document.getElementById("hiddenlng").innerHTML),
-                label:'WE ARE HERE!',
-                map:map
-          })
-        }
-
-    div.panelcomment
-      .row
-        h3#commenttitle Come to comment:
-        .row
-          form(onsubmit='return validateForm()', name='commentForm',id='commentForm',autocomplete="off")
-            .input-field.col.s12
-              input#body.validate(type='text', name='body',placeholder='how do you think of it?',maxlength=1024, required)
-            .input-field.col.s12
-              button#commentbutton.btn.btn-primary(type='submit') Send         
-
-      each comment in eventInfo.comments
-        p#comment-box #{comment.body}
-        div#result-box
 
     button#myBtn(onclick='topFunction()', title='Go to top') Top
     script.
@@ -190,7 +141,3 @@ html
           a(href='#')
             i.fa.fa-github
 
-  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyA9hyb7Hz8M7ZgAoJyXThHFx5951myltTI&callback=initMap')
-  //- script(src='https://code.jquery.com/jquery.js')
-  //- script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
-  //- script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js')

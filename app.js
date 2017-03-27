@@ -51,6 +51,13 @@ const Comment = sequelize.define('comment',{
 	body:Sequelize.STRING(1024)
 })
 
+const Contact = sequelize.define('contact', {
+	fullname: Sequelize.STRING,
+	email: Sequelize.STRING,
+	phone: Sequelize.STRING,
+	message: Sequelize.STRING(1024),
+})
+
 // relations between tables
 User.hasMany(Event)
 Event.belongsTo(User)
@@ -83,11 +90,43 @@ app.get('/home', (req, res) => {
 		})
 })
 
+app.post('/home', (req, res) =>{
+	console.log('post a contact request');
+ 	sequelize.sync({force:true}).then(function(){
+ 	Contact.create({
+    	fullname:req.body.full_name,
+    	email:req.body.email,
+    	phone:req.body.phone,
+    	message:req.body.comment,
+    })
+    .then(function(){
+    	res.redirect('/home')
+    })
+ 	})
+})
+
 
 app.get('/setup', (req, res) => {
 	let user = req.session.user;
 	res.render('setup', {user: req.session.user})
 })
+
+app.post('/setup',(req,res) =>{
+ 	console.log('post a setup request');
+ 	sequelize.sync({force:true}).then(function(){
+ 	Event.create({
+    	subject:req.body.subjectInput,
+    	brief:req.body.briefInput,
+    	lat:req.body.latInput,
+    	lng:req.body.lngInput,
+    	description:req.body.descriptionInput,
+    })
+    .then(function(){
+    	res.render('addedevent')
+    })
+ 	})
+
+ })
 
 app.get('/spec', (req, res) => {
 	Event.findOne(
@@ -114,36 +153,56 @@ app.get('/spec', (req, res) => {
 
 })
 
-// app.post('/spec/', function(req,res){
-// 	let user = req.session.user;
-// 	let userInputComment = req.body.newComment
-// 	//console.log(userInputComment)
-
-// 	Event.findOne({
-// 		where: {id: req.body.eventId}
-// 	})
-// 	.then(function(event){
-// 			// console.log('event info is:')
-// 			// console.log(event)
-// 			const value = {
-// 				body: userInputComment,
-// 				userId: user.id
-// 			}
-// 			const opts = {
-// 				include:[User]
-// 			}
-// 			return event.createComment(value, opts) 
-			
+// app.get('/specroute:countryName',(req,res)=>{
+// 	if (req.params.countryName =='all'){
+// 		Roads.findAll()
+// 		.then((result)=>{
+// 			res.send(result)
 // 		})
-// 	.then(function(data){
-// 		// console.log('data is:')
-// 		// console.log(data)
-// 		// console.log(data.dataValues.body)
-// 		let newComment = data.dataValues.body
-// 		res.send({newComment:newComment})	
+// 	}
+// 	else{
+// 			Roads.findAll({
+// 		where: {
+// 			country: req.params.countryName
+// 		}
 // 	})
-// 	.catch( e => console.log(e))
-// });
+// 	.then((result) => {
+
+// 		res.send(result)
+// 	})
+// 	}
+// })
+
+app.post('/spec/', function(req,res){
+	let user = req.session.user;
+	let userInputComment = req.body.magic
+	//console.log(userInputComment)
+
+	Event.findOne({
+		where: {id: req.body.eventId}
+	})
+	.then(function(event){
+			// console.log('event info is:')
+			// console.log(event)
+			const value = {
+				body: userInputComment,
+				userId: user.id
+			}
+			const opts = {
+				include:[User]
+			}
+			return event.createComment(value, opts) 
+			
+		})
+	.then(function(data){
+		// console.log('data is:')
+		// console.log(data)
+		// console.log(data.dataValues.body)
+		let newComment = data.dataValues.body
+		res.send({magic:newComment})	
+	})
+	.catch( e => console.log(e))
+});
 
 //server
 sequelize.sync({force:true})

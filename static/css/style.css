@@ -83,8 +83,8 @@ h3 {
 }
 
 #googleMap {
-    width:35%;
-    margin-left:190px;
+    width:40%;
+    margin-left:70px;
 	margin-right: 120px;
 	margin-top: 50px;
 	margin-bottom:30px;
@@ -96,12 +96,12 @@ h3 {
 #success_message{ display: none;}
 
 .panelContact {
-	margin-left:200px;
+	margin-left:150px;
 }
 
 #contact_form {
-	margin-left:570px;
-	margin-right: 150px;
+	margin-left:440px;
+	margin-right: 200px;
 	margin-top: 50px;
 	margin-bottom:20px;
 }
@@ -113,21 +113,21 @@ h3 {
 	font-family: cursive;
 	font-size:20px;
 	font-weight: bold;
+    text-align: center;
 }
 
 #contact_form label {
 	font-family: cursive;
 	font-size:17px;
     padding: 5px;
+    text-align: center;
+    font-size: 15px;
+}
+.col-md-4{
+    width:80%;
+    margin-left:40px;
 }
 
-#contact_form input.form-control {
-	width:230px;
-}
-
-#contact_form textarea.form-control{
-	width: 230px;
-}
 
 /*To top button*/
 #myBtn {

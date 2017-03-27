@@ -79,26 +79,26 @@ html
 
     .container
       p.setupFormTitle Fill the form and set up a new event
-      form#setupEventForm
+      form#setupEventForm(method='POST' action='/setup')
         .form-group
           label(for='inputSubject') Subject：
           |  
-          input#inputSubject.form-control(type='text', autocomplete="off", placeholder='subject of your event...')
+          input#inputSubject.form-control(type='text', autocomplete="off", placeholder='subject of your event...',name='subjectInput')
         .form-group
           label(for='inputBrief') Event Brief：
           |  
-          input#inputBrief.form-control(type='text', autocomplete="off", placeholder='better to include the date here...')
+          input#inputBrief.form-control(type='text', autocomplete="off", placeholder='better to include the date here...',name='briefInput')
         .form-group
           label(for='inputLat') Latitude of Event Location：
           |  
-          input#inputLat.form-control(type='number', step='0.000001', autocomplete="off",placeholder='please check latitude of the location on Googlemaps...')
+          input#inputLat.form-control(type='number', step='0.000001', autocomplete="off",placeholder='please check latitude of the location on Googlemaps...',name='latInput')
         .form-group
           label(for='inputLng') Longitude of Event Location：
           |  
-          input#inputLat.form-control(type='number',step='0.000001', autocomplete="off",placeholder='please check longtitude of the location on Googlemaps...')
+          input#inputLat.form-control(type='number',step='0.000001', autocomplete="off",placeholder='please check longtitude of the location on Googlemaps...',name='lngInput')
         .form-group
           label(for='inputDescription') Event Details：
-          textarea#inputDescription.form-control(rows='10', placeholder='more details of your event...',autocomplete="off")
+          textarea#inputDescription.form-control(rows='10', placeholder='more details of your event...',autocomplete="off",name='descriptionInput')
         |  
         button.btn.btn-primary(type='submit') Submit
 
@@ -156,7 +156,7 @@ html
           a(href='#')
             i.fa.fa-github
 
-  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyA9hyb7Hz8M7ZgAoJyXThHFx5951myltTI&callback=initMap')
+
   //- script(src='https://code.jquery.com/jquery.js')
   //- script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
   //- script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js')
