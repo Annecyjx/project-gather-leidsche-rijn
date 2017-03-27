@@ -84,6 +84,7 @@ app.get('/home', (req, res) => {
 			}
 
 			res.render('index', {
+				message:req.query.message,
 				user: user,
 				magicKey: result,
 			})
@@ -105,6 +106,70 @@ app.post('/home', (req, res) =>{
  	})
 })
 
+app.post('/login', bodyParser.urlencoded({extended: true}), function (request, response) {
+	
+    //server side validation
+	if(request.body.email.length === 0) {
+		response.redirect('/home/?message=' + encodeURIComponent("Please fill out your email address."));
+		return;
+	}
+
+	if(request.body.password.length === 0) {
+		response.redirect('/home/?message=' + encodeURIComponent("Please fill out your password."));
+		return;
+	}
+
+	User.findOne({
+		where: {
+			email: request.body.email
+		}
+	}).then(function (user) {
+		if(user === null){
+			response.redirect('/home/?message=' + encodeURIComponent("Invalid email or password."));
+		}
+		else{
+		//console.log(request.body.password)
+		//console.log(user.password)
+		bcrypt.compare(request.body.password, user.password, (err, result)=>{
+			if (err) throw err;
+			if (user !== null && result) {
+				request.session.user = user;
+				response.redirect('/home');
+			}
+			else {
+				response.redirect('/home/?message=' + encodeURIComponent("Invalid email or password."));
+			}
+		})
+		}
+	}, function (error) {
+		response.redirect('/home/?message=' + encodeURIComponent("Invalid email or password."));
+	});
+});
+
+
+app.post('/signup', (req, res) => {
+	console.log('the signup post is working')
+	let userInputUsername = req.body.username;
+	let userInputEmail = req.body.email;
+	let userInputPassword = req.body.password;
+	let userInputZipcode = req.body.zipcode;
+
+	bcrypt.hash(userInputPassword, 8, (err,hash) =>{
+		if (err) throw err
+
+			return User.create({
+				username: userInputUsername,
+				email: userInputEmail,
+				password: hash,
+				zipcode:userInputZipcode,
+			})
+
+		.then(function() {
+			res.redirect('/home');
+		})
+	})	
+});
+
 
 app.get('/setup', (req, res) => {
 	let user = req.session.user;
@@ -112,9 +177,11 @@ app.get('/setup', (req, res) => {
 })
 
 app.post('/setup',(req,res) =>{
+	let user = req.session.user;
  	console.log('post a setup request');
- 	sequelize.sync({force:true}).then(function(){
- 	Event.create({
+ 	User.findById(user.id)
+ 	.then(function(user){
+ 	user.createEvent({
     	subject:req.body.subjectInput,
     	brief:req.body.briefInput,
     	lat:req.body.latInput,
@@ -122,7 +189,7 @@ app.post('/setup',(req,res) =>{
     	description:req.body.descriptionInput,
     })
     .then(function(){
-    	res.render('addedevent')
+    	res.render('addedevent', {user: req.session.user})
     })
  	})
 
@@ -144,8 +211,8 @@ app.get('/spec', (req, res) => {
 	.then(function(data){
 		// console.log('data is:')
 		// console.log(data)
-		console.log('data.dataValues is:')
-		console.log(data.dataValues)
+		// console.log('data.dataValues is:')
+		// console.log(data.dataValues)
 		// console.log('data.dataValues.comments[0].body is:')
 		// console.log(data.dataValues.comments[0].body)
 		res.render('spec', {/*user: user, */eventInfo:data})
@@ -153,37 +220,19 @@ app.get('/spec', (req, res) => {
 
 })
 
-// app.get('/specroute:countryName',(req,res)=>{
-// 	if (req.params.countryName =='all'){
-// 		Roads.findAll()
-// 		.then((result)=>{
-// 			res.send(result)
-// 		})
-// 	}
-// 	else{
-// 			Roads.findAll({
-// 		where: {
-// 			country: req.params.countryName
-// 		}
-// 	})
-// 	.then((result) => {
-
-// 		res.send(result)
-// 	})
-// 	}
-// })
 
 app.post('/spec/', function(req,res){
 	let user = req.session.user;
 	let userInputComment = req.body.magic
-	//console.log(userInputComment)
+	console.log('userInputComment is:')
+	console.log(userInputComment) //works
 
 	Event.findOne({
 		where: {id: req.body.eventId}
 	})
 	.then(function(event){
-			// console.log('event info is:')
-			// console.log(event)
+			console.log('event info is:')
+			console.log(event)
 			const value = {
 				body: userInputComment,
 				userId: user.id
@@ -195,8 +244,8 @@ app.post('/spec/', function(req,res){
 			
 		})
 	.then(function(data){
-		// console.log('data is:')
-		// console.log(data)
+		console.log('data is:')
+		console.log(data)
 		// console.log(data.dataValues.body)
 		let newComment = data.dataValues.body
 		res.send({magic:newComment})	

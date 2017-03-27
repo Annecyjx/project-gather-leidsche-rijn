@@ -29,7 +29,6 @@ html
                 li.active
                   a(href='/setup') SetUp New Event!
 
-
             .navbar-right
                 button#signup(onclick="document.getElementById('id01').style.display='block'") SIGN UP
                 #id01.modal
@@ -38,18 +37,22 @@ html
                       |  
                       .container
                         label
-                          b Username
+                          b Username:
                         |  
                         input(id='signupusername', type='text', placeholder='Enter Username', name='username', required)
                         label
-                          b Email
+                          b Email:
                         |  
                         input(id='signupemail', type='text', placeholder='Enter Email', name='email', required)
                         |  
                         label
-                          b Password
+                          b Password:
                         |  
                         input(id='signuppassword', type='password', placeholder='Enter Password', name='password', required)
+                        label
+                          b Zipcode:
+                        |  
+                        input(id='signupzipcode', type='text', placeholder='Enter Zipcode', name='zipcode', required)
                         .clearfix
                           button.signupbtn(type='submit') Sign Up
                           |
@@ -64,18 +67,20 @@ html
                         |  
                       .container
                         label
-                          b Email
+                          b Email:
                         |  
                         input(id='loginemail', type='text', placeholder='Enter Email', name='email', required)
                         |  
                         label
-                          b Password
+                          b Password:
                         |  
                         input(id='loginpassword', type='password', placeholder='Enter Password', name='password', required)
                         |  
                         button.signupbtn(type='submit', id="loginbutton") Login
                         |  
                         button.cancelbtn(type='button', onclick="document.getElementById('id02').style.display='none'") Cancel
+      h2#error-message= message
+      
 
     .container
       p.setupFormTitle Fill the form and set up a new event
@@ -155,8 +160,3 @@ html
             i.fa.fa-linkedin
           a(href='#')
             i.fa.fa-github
-
-
-  //- script(src='https://code.jquery.com/jquery.js')
-  //- script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
-  //- script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js')
