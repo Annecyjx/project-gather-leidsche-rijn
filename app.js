@@ -200,6 +200,12 @@ app.post('/setup',(req,res) =>{
     	lng:req.body.lngInput,
     	description:req.body.descriptionInput,
     })
+    .then(function(event){
+    	event.createJoin({
+    		participants:req.body.initialJoinInput,
+    		userId:user.id
+    	})
+    })
     .then(function(){
     	res.render('addedevent', {user: req.session.user})
     })
@@ -262,7 +268,8 @@ app.post('/comment/', function(req,res){
 	.catch( e => console.log(e))
 });
 
-//Ajax call server join
+
+//Ajax call server Join
 app.post('/spec/', function(req,res){
 	let user = req.session.user;
 
@@ -275,7 +282,8 @@ app.post('/spec/', function(req,res){
 		where: {
 			id: req.body.eventId,
 		},
-		include: [{model: Join}]
+		include: [{model: Join}
+		]
 	})
 
 	.then(function(event){
@@ -290,32 +298,12 @@ app.post('/spec/', function(req,res){
 		event.joins[0].updateAttributes({
 			participants: updatedNumber
 		}).then( data => {
-	
+			console.log('data is:')
+			console.log(data)
 
-		let newJoin = data.dataValues.participants
-			res.send({magic2:newJoin})
-		})
-
-		const opts = {
-			include:[User]
-		}
-
-		// 	const value2 ={
-		// 		participants:userInputJoin,
-		// 		userId: user.id
-		// 	}
-		// 	return event.createJoin(value2,opts) 	
-		// }
-	
-	})
-
-	.then(function(data){
-		// console.log('data.dataValues.body is:')
-		// console.log(data.dataValues.body)
-		let newJoin = data.dataValues.participants
-		// console.log('newJoin is:')
-		// console.log(newJoin) 
-		res.send({magic2:newJoin})	
+			let totalNumber = data.dataValues.participants
+			res.send({magic2:totalNumber})
+		})	
 	})
 	.catch( e => console.log(e))
 });

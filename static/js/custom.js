@@ -48,11 +48,10 @@ $(document).ready(function(){
 			console.log('performed event request')
 			console.log(data.magic2) 
 			console.log(data)
-			$('#requesttitle').append('<p>' + data.magic2 + '</p>'+'<p>Nice to have you there!</p>');
+			$('#joinamount').html('<p>' + data.magic2 + '</p>');
 			$('#joinInput').val('')
 		})
 		event.preventDefault()
-	
 	})
 })
 

@@ -2,6 +2,6 @@
 
 *Plan for the last week:
 login session; half way? logout?
-calculate total participants;
+initial participants;
 show own events;
 google maps zip code;
