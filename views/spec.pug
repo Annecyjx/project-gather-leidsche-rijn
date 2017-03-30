@@ -9,6 +9,7 @@ html
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
     link(type='text/css' rel='stylesheet', href='/../css/style.css')
     script(type='text/javascript', src='/../js/jquery-3.1.1.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.js')  
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
     script(type='text/javascript' src='/../js/custom.js')
 
@@ -96,11 +97,12 @@ html
           .row
             h3#requesttitle How many of you would like to join:
             .row
-              form#joinForm
+              form(name='join',id='joinForm',autocomplete="off")
                 .input-field.col.s12
-                  input(id='joinInput',type='number', min='0',step='1',placeholder='number only',autocomplete="off")
+                  input(id='joinInput',type='number', min='0',step='1',placeholder='number only',autocomplete="off",name='joinInputNumber')
                 .input-field.col.s12
-                  button.btn.btn-primary(type='submit') Join
+                  button#joinbutton.btn.btn-primary(type='submit') Join
+
 
 
     div.panellocation#locationDetail

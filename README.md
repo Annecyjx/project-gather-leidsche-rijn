@@ -1,9 +1,7 @@
 # project-gather-leidsche-rijn
 
-*Plan for last week:
-change pictures to own;
---contact form send; alert doesnt show?
-login session;
-join form;
+*Plan for the last week:
+login session; half way? logout?
 calculate total participants;
---comment form; ajax post stuck?
+show own events;
+google maps zip code;

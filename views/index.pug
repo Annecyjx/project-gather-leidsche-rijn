@@ -11,6 +11,7 @@ html
     script(type='text/javascript', src='/../js/jquery-3.1.1.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.js')  
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    script(type='text/javascript' src='/../js/custom.js')
 
   body
     .navbar-wrapper
@@ -119,7 +120,7 @@ html
     div.panelBulletin#bulletin
         .container 
             h2.about Come to join whatever event you like in the neighbourhood Utrecht Leidsche Rijn! Set up a fun activity through our fancy website, which makes both your and others' life richness!
-            p.bulletintitle Hot events & Welcome to join:
+            p.bulletintitle Popular events & Welcome to join:
             if magicKey
             each item in magicKey
               h3
@@ -149,7 +150,7 @@ html
 
       div.panelContact
         .container
-          form#contact_form.well.form-horizontal(action='/home ', method='post')
+          form#contact_form.well.form-horizontal(action='/home ', method='post',autocomplete="off")
             fieldset
               legend Contact Us Today!
               .form-group
@@ -175,7 +176,7 @@ html
                     span.input-group-addon
                       i.glyphicon.glyphicon-earphone
                     |  
-                    input.form-control(name='phone', placeholder='(31)555-333-222', type='text')
+                    input.form-control(name='phone', placeholder='(31)12345678', type='text')
               .form-group
                 label.col-md-4.control-label Message
                 .col-md-4.inputGroupContainer
@@ -194,90 +195,7 @@ html
                     | Send
                     span.glyphicon.glyphicon-send
 
-    script.
-      $(document).ready(function() {
-        $('#contact_form').bootstrapValidator({
-        feedbackIcons: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
-        fields: {
-            first_name: {
-                validators: {
-                        stringLength: {
-                        min: 2,
-                    },
-                        notEmpty: {
-                        message: 'Please supply your first name'
-                    }
-                }
-            },
-             last_name: {
-                validators: {
-                     stringLength: {
-                        min: 2,
-                    },
-                    notEmpty: {
-                        message: 'Please supply your last name'
-                    }
-                }
-            },
-            email: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please supply your email address'
-                    },
-                    emailAddress: {
-                        message: 'Please supply a valid email address'
-                    }
-                }
-            },
-            phone: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please supply your phone number'
-                    },
-                    phone: {
-                        country: 'US',
-                        message: 'Please supply a vaild phone number with area code'
-                    }
-                }
-            },
-            comment: {
-                validators: {
-                      stringLength: {
-                        min: 10,
-                        max: 200,
-                        message:'Please enter at least 10 characters and no more than 200'
-                    },
-                    notEmpty: {
-                        message: 'Please supply a message'
-                    }
-                    }
-                }
-            }
-        })
-        .on('success.form.bv', function(e) {
-            $('#success_message').slideDown({ opacity: "show" }, "slow") // Do something ...
-                $('#contact_form').data('bootstrapValidator').resetForm();
-
-            // Prevent form submission
-            e.preventDefault();
-
-            // Get the form instance
-            var $form = $(e.target);
-
-            // Get the BootstrapValidator instance
-            var bv = $form.data('bootstrapValidator');
-
-            // Use Ajax to submit form data
-            $.post($form.attr('action'), $form.serialize(), function(result) {
-                console.log(result);
-            }, 'json');
-            });
-        });     
-
+     
     button#myBtn(onclick='topFunction()', title='Go to top') Top
     script.
       // When the user scrolls down 20px from the top of the document, show the button
