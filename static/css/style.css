@@ -55,6 +55,14 @@ button#login {
     padding-left:13px;
     font-family: cursive;
 }
+button#unicorn.welcome{
+    margin: 13px 40px 10px 20px;
+}
+h2.welcome{
+    margin:13px; 
+    font-size: 20px;
+    color: white;
+}
 b {
     color: #1b5e20;
     font-family: cursive;
@@ -342,6 +350,9 @@ h3 {
    padding-left:5px;
 }
 #inputLat {
+    width: 500px;
+}
+#inputInitialJoin {
     width: 500px;
 }
 #setupEventForm input {

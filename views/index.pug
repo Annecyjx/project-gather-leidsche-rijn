@@ -14,76 +14,103 @@ html
     script(type='text/javascript' src='/../js/custom.js')
 
   body
-    .navbar-wrapper
-      nav.navbar.navbar-inverse.navbar-static-top
-        .navbar-header
-            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-            |  
-            a.navbar-brand(href='/home') Gather-Leidsche-Rjin
-        #navbar.navbar-collapse.collapse
-            ul.nav.navbar-nav
-                li.active
-                  a(href='#bulletin') About
-                li
-                  a(href='/setup') SetUp New Event!
-                li
-                  a(href='#contact_form') Contact
+    if user
+      .navbar-wrapper
+        nav.navbar.navbar-inverse.navbar-static-top
+          .navbar-header
+              button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+              |  
+              a.navbar-brand(href='/home') Gather-Leidsche-Rjin
+          #navbar.navbar-collapse.collapse
+              ul.nav.navbar-nav
+                  li.active
+                    a(href='#bulletin') About
+                  li
+                    a(href='/setup') SetUp New Event!
+                  li
+                    a(href='#contact_form') Contact
 
-            .navbar-right
-                button#signup(onclick="document.getElementById('id01').style.display='block'") SIGN UP
-                #id01.modal
-                    form.modal-content.animate#signupForm(method='POST', action='/signup')
-                      span.close(onclick="document.getElementById('id01').style.display='none'", title='Close Modal') &times;
-                      |  
-                      .container
-                        label
-                          b Username:
-                        |  
-                        input(id='signupusername', type='text', placeholder='Enter Username', name='username', required)
-                        label
-                          b Email:
-                        |  
-                        input(id='signupemail', type='text', placeholder='Enter Email', name='email', required)
-                        |  
-                        label
-                          b Password:
-                        |  
-                        input(id='signuppassword', type='password', placeholder='Enter Password', name='password', required)
-                        label
-                          b Zipcode:
-                        |  
-                        input(id='signupzipcode', type='text', placeholder='Enter Zipcode', name='zipcode', required)
-                        .clearfix
-                          button.signupbtn(type='submit') Sign Up
-                          |
-                          button.cancelbtn(type='button', onclick="document.getElementById('id01').style.display='none'") Cancel
+              .navbar-right
+                  button#unicorn.welcome
+                    a(href="/logout") LOGOUT
+              .navbar-right
+                  h2.welcome(id='foo' data-target=user.id) Welcome #{user.username}!
 
-            .navbar-right
-                button.test#login(onclick="document.getElementById('id02').style.display='block'") LOGIN
-                #id02.modal
-                    form.modal-content.animate#loginForm(method='POST', action='/login')
-                      .imgcontainer
-                        span.close(onclick="document.getElementById('id02').style.display='none'", title='Close Modal') &times;
+    else
+      .navbar-wrapper
+        nav.navbar.navbar-inverse.navbar-static-top
+          .navbar-header
+              button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+              |  
+              a.navbar-brand(href='/home') Gather-Leidsche-Rjin
+          #navbar.navbar-collapse.collapse
+              ul.nav.navbar-nav
+                  li.active
+                    a(href='#bulletin') About
+                  li
+                    a(href='/setup') SetUp New Event!
+                  li
+                    a(href='#contact_form') Contact
+
+              .navbar-right
+                  button#signup(onclick="document.getElementById('id01').style.display='block'") SIGN UP
+                  #id01.modal
+                      form.modal-content.animate#signupForm(method='POST', action='/signup')
+                        span.close(onclick="document.getElementById('id01').style.display='none'", title='Close Modal') &times;
                         |  
-                      .container
-                        label
-                          b Email:
-                        |  
-                        input(id='loginemail', type='text', placeholder='Enter Email', name='email', required)
-                        |  
-                        label
-                          b Password:
-                        |  
-                        input(id='loginpassword', type='password', placeholder='Enter Password', name='password', required)
-                        |  
-                        button.signupbtn(type='submit', id="loginbutton") Login
-                        |  
-                        button.cancelbtn(type='button', onclick="document.getElementById('id02').style.display='none'") Cancel
-      h2#error-message= message
+                        .container
+                          label
+                            b Username:
+                          |  
+                          input(id='signupusername', type='text', placeholder='Enter Username', name='username', required)
+                          label
+                            b Email:
+                          |  
+                          input(id='signupemail', type='text', placeholder='Enter Email', name='email', required)
+                          |  
+                          label
+                            b Password:
+                          |  
+                          input(id='signuppassword', type='password', placeholder='Enter Password', name='password', required)
+                          label
+                            b Zipcode:
+                          |  
+                          input(id='signupzipcode', type='text', placeholder='Enter Zipcode', name='zipcode', required)
+                          .clearfix
+                            button.signupbtn(type='submit') Sign Up
+                            |
+                            button.cancelbtn(type='button', onclick="document.getElementById('id01').style.display='none'") Cancel
+
+              .navbar-right
+                  button.test#login(onclick="document.getElementById('id02').style.display='block'") LOGIN
+                  #id02.modal
+                      form.modal-content.animate#loginForm(method='POST', action='/login')
+                        .imgcontainer
+                          span.close(onclick="document.getElementById('id02').style.display='none'", title='Close Modal') &times;
+                          |  
+                        .container
+                          label
+                            b Email:
+                          |  
+                          input(id='loginemail', type='text', placeholder='Enter Email', name='email', required)
+                          |  
+                          label
+                            b Password:
+                          |  
+                          input(id='loginpassword', type='password', placeholder='Enter Password', name='password', required)
+                          |  
+                          button.signupbtn(type='submit', id="loginbutton") Login
+                          |  
+                          button.cancelbtn(type='button', onclick="document.getElementById('id02').style.display='none'") Cancel
+        h2#error-message= message
 
     div.panelCarousel
         .container
@@ -198,7 +225,6 @@ html
      
     button#myBtn(onclick='topFunction()', title='Go to top') Top
     script.
-      // When the user scrolls down 20px from the top of the document, show the button
       window.onscroll = function() {scrollFunction()};
       function scrollFunction() {
       if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
@@ -207,7 +233,6 @@ html
       document.getElementById("myBtn").style.display = "none";
       }
       }
-      // When the user clicks on the button, scroll to the top of the document
       function topFunction() {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;

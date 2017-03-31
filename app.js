@@ -7,7 +7,6 @@ const app = express();
 const fs = require('fs');
 const pg = require('pg');
 const bodyParser = require('body-parser');
-//const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const math = require('mathjs');
@@ -18,7 +17,6 @@ app.set('views', './views');
 app.set('view engine', 'pug');
 app.use(express.static('static'));
 app.use(express.static('static/js'));
-//app.use(cookieParser())
 
 // setting up the session
 app.use(session({
@@ -79,8 +77,6 @@ app.get('/home', (req, res) => {
 	let result = [];
 	Event.findAll()
 	.then(function(data) {
-			// console.log('all events from all users:')
-			// console.log(data)
 			for(var i = 0; i < data.length; i++) {
 				result.push({'id':data[i].id,'subject': data[i].subject,'brief':data[i].brief,'description': data[i].description,'lat': data[i].lat, 'lng': data[i].lng})
 			}
@@ -94,7 +90,6 @@ app.get('/home', (req, res) => {
 })
 
 app.post('/home', (req, res) =>{
-	//console.log('post a contact request');
  	sequelize.sync({force:true}).then(function(){
  	Contact.create({
     	fullname:req.body.full_name,
@@ -130,8 +125,6 @@ app.post('/login', bodyParser.urlencoded({extended: true}), function (request, r
 			response.redirect('/home/?message=' + encodeURIComponent("Invalid email or password."));
 		}
 		else{
-		//console.log(request.body.password)
-		//console.log(user.password)
 		bcrypt.compare(request.body.password, user.password, (err, result)=>{
 			if (err) throw err;
 			if (user !== null && result) {
@@ -148,18 +141,17 @@ app.post('/login', bodyParser.urlencoded({extended: true}), function (request, r
 	});
 });
 
-// app.get('/logout', function (req, res) {
-//   req.session.destroy(function (error) {
-//     if(error) {
-//         throw error;
-//     }
-//     console.log('destroyed session');
-//     res.redirect('/home');
-//   })
-// })
+app.get('/logout', function (req, res) {
+  req.session.destroy(function (error) {
+    if(error) {
+        throw error;
+    }
+    console.log('destroyed session');
+    res.redirect('/home');
+  })
+})
 
 app.post('/signup', (req, res) => {
-	//console.log('the signup post is working')
 	let userInputUsername = req.body.username;
 	let userInputEmail = req.body.email;
 	let userInputPassword = req.body.password;
@@ -215,7 +207,7 @@ app.post('/setup',(req,res) =>{
 
 //Show specific event
 app.get('/spec', (req, res) => {
-	//let user = req.session.user;
+	let user = req.session.user;
 	Event.findOne(
 		{where: {id: req.query.id},
 		include: [
@@ -229,11 +221,7 @@ app.get('/spec', (req, res) => {
 			]}
 	)
 	.then(function(data){
-		// console.log('data.dataValues is:')
-		// console.log(data.dataValues)
-		// console.log('data.dataValues.comments[0].body is:')
-		// console.log(data.dataValues.comments[0].body)
-		res.render('spec', {/*user: user, */eventInfo:data})
+		res.render('spec', {user: user, eventInfo:data})
 	});
 
 })
@@ -241,17 +229,13 @@ app.get('/spec', (req, res) => {
 //Ajax call server comment
 app.post('/comment/', function(req,res){
 	let user = req.session.user;
-	let userInputComment = req.body.magic
-	// console.log('userInputComment is:')
-	// console.log(userInputComment) 
+	let userInputComment = req.body.magic 
 	Event.findOne({
 		where: {
 			id: req.body.eventId,
 		}
 	})
-	.then(function(event){
-		// console.log('event info is:')
-		// console.log(event) 
+	.then(function(event){ 
 		const opts = {
 			include:[User]
 		}
@@ -263,7 +247,7 @@ app.post('/comment/', function(req,res){
 	})
 	.then(function(data){
 		let newComment = data.dataValues.body
-		res.send({magic:newComment})	
+		res.send({user: user,magic:newComment})	
 	})
 	.catch( e => console.log(e))
 });
@@ -286,15 +270,8 @@ app.post('/spec/', function(req,res){
 		]
 	})
 
-	.then(function(event){
-		console.log('event info is:')
-		console.log(event) 
-		console.log('event.joins[0]:')
-		console.log(event.joins[0])
-		
+	.then(function(event){		
 		var updatedNumber = math.sum(event.joins[0].participants, userInputJoin)
-		console.log('//////////////////////')
-		console.log(updatedNumber)
 		event.joins[0].updateAttributes({
 			participants: updatedNumber
 		}).then( data => {
@@ -302,7 +279,7 @@ app.post('/spec/', function(req,res){
 			console.log(data)
 
 			let totalNumber = data.dataValues.participants
-			res.send({magic2:totalNumber})
+			res.send({user: user,magic2:totalNumber})
 		})	
 	})
 	.catch( e => console.log(e))
@@ -311,7 +288,7 @@ app.post('/spec/', function(req,res){
 
 
 //server
-sequelize.sync({force:true})
+sequelize.sync()
 	  .then(function () {
 		return User.create({
 			username: "Dummy",

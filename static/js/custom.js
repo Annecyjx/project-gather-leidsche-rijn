@@ -21,12 +21,8 @@ $(document).ready(function(){
 		var isValidated = validateForm(event);
 		if(isValidated){
 		var eventId = $('.eventId').attr('id')
-		console.log('eventId is:')
-		console.log(eventId)
 		userInput = $('#body').val()
 		$.post('/comment', {magic:userInput, eventId: eventId}, function(data){
-			console.log('performed event request')
-			console.log(data.magic)
 			$('#result-box').append('<p>' + data.magic + '</p>');
 			$('#body').val('')			
 		})
@@ -41,13 +37,8 @@ $(document).ready(function(){
 	$("#joinbutton").click(function(event){
 
 		var eventId = $('.eventId').attr('id')
-		console.log('logging eventId again:')
-		console.log(eventId)
 		userInputNumber = $('#joinInput').val()
 		$.post('/spec', {magic2:userInputNumber, eventId: eventId}, function(data){
-			console.log('performed event request')
-			console.log(data.magic2) 
-			console.log(data)
 			$('#joinamount').html('<p>' + data.magic2 + '</p>');
 			$('#joinInput').val('')
 		})
@@ -86,13 +77,12 @@ $(document).ready(function() {
         },
         phone: {
             validators: {
+            	stringLength: {
+            	max:15
+            },
                 notEmpty: {
                     message: 'Please supply your phone number'
                 },
-                phone: {
-                    country: 'US',
-                    message: 'Please supply a vaild phone number with area code'
-                }
             }
         },
         comment: {
@@ -110,19 +100,11 @@ $(document).ready(function() {
         }
     })
     .on('success.form.bv', function(e) {
-        $('#success_message').slideDown({ opacity: "show" }, "slow") // Do something ...
+        $('#success_message').slideDown({ opacity: "show" }, "slow") 
             $('#contact_form').data('bootstrapValidator').resetForm();
-
-        // Prevent form submission
         e.preventDefault();
-
-        // Get the form instance
         var $form = $(e.target);
-
-        // Get the BootstrapValidator instance
         var bv = $form.data('bootstrapValidator');
-
-        // Use Ajax to submit form data
         $.post($form.attr('action'), $form.serialize(), function(result) {
             console.log(result);
         }, 'json');

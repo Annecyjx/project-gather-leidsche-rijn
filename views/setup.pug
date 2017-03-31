@@ -14,104 +14,204 @@ html
     script(type='text/javascript' src='/../js/custom.js')
 
   body
-    .navbar-wrapper
-      nav.navbar.navbar-inverse.navbar-static-top
-        .navbar-header
-            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-            |  
-            a.navbar-brand(href='/home') Gather-Leidsche-Rjin
-        #navbar.navbar-collapse.collapse
-            ul.nav.navbar-nav
-                li
-                  a(href='/home') All Events
-                li.active
-                  a(href='/setup') SetUp New Event!
+    if user
+      .navbar-wrapper
+        nav.navbar.navbar-inverse.navbar-static-top
+          .navbar-header
+              button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+              |  
+              a.navbar-brand(href='/home') Gather-Leidsche-Rjin
+          #navbar.navbar-collapse.collapse
+              ul.nav.navbar-nav
+                  li
+                    a(href='/home') All Events
+                  li.active
+                    a(href='/setup') SetUp New Event!
+              .navbar-right
+                  button#unicorn.welcome
+                    a(href="/logout") LOGOUT
+              .navbar-right
+                  h2.welcome(id='foo' data-target=user.id) Welcome #{user.username}!
 
-            .navbar-right
-                button#signup(onclick="document.getElementById('id01').style.display='block'") SIGN UP
-                #id01.modal
-                    form.modal-content.animate#signupForm(method='POST', action='/signup')
-                      span.close(onclick="document.getElementById('id01').style.display='none'", title='Close Modal') &times;
-                      |  
-                      .container
-                        label
-                          b Username:
-                        |  
-                        input(id='signupusername', type='text', placeholder='Enter Username', name='username', required)
-                        label
-                          b Email:
-                        |  
-                        input(id='signupemail', type='text', placeholder='Enter Email', name='email', required)
-                        |  
-                        label
-                          b Password:
-                        |  
-                        input(id='signuppassword', type='password', placeholder='Enter Password', name='password', required)
-                        label
-                          b Zipcode:
-                        |  
-                        input(id='signupzipcode', type='text', placeholder='Enter Zipcode', name='zipcode', required)
-                        .clearfix
-                          button.signupbtn(type='submit') Sign Up
-                          |
-                          button.cancelbtn(type='button', onclick="document.getElementById('id01').style.display='none'") Cancel
+      .container
+            p.setupFormTitle Fill the form and set up a new event
+            form#setupEventForm(method='POST' action='/setup')
+              .form-group
+                label(for='inputSubject') Subject：
+                |  
+                input#inputSubject.form-control(type='text', autocomplete="off", placeholder='subject of your event...',name='subjectInput',required, maxlength=100)
+              .form-group
+                label(for='inputBrief') Event Brief：
+                |  
+                input#inputBrief.form-control(type='text', autocomplete="off", placeholder='better to include the date here...',name='briefInput',maxlength=200)
+              .form-group
+                label(for='inputInitialJoin') Initial Participants：
+                |  
+                input#inputInitialJoin.form-control(type='number', min='0',step='1',placeholder='number only',name='initialJoinInput',required)
+              .form-group
+                label(for='inputLat') Latitude of Event Location：
+                |  
+                input#inputLat.form-control(type='number', step='0.000001', autocomplete="off",placeholder='please check latitude of the location on Googlemaps...',name='latInput',required)
+              .form-group
+                label(for='inputLng') Longitude of Event Location：
+                |  
+                input#inputLat.form-control(type='number',step='0.000001', autocomplete="off",placeholder='please check longtitude of the location on Googlemaps...',name='lngInput',required)
+              .form-group
+                label(for='inputDescription') Event Details：
+                textarea#inputDescription.form-control(rows='10', placeholder='more details of your event...',autocomplete="off",name='descriptionInput',maxlength=1024)
+              button.btn.btn-primary(type='submit') Submit
+                span.glyphicon.glyphicon-send
 
-            .navbar-right
-                button.test#login(onclick="document.getElementById('id02').style.display='block'") LOGIN
-                #id02.modal
-                    form.modal-content.animate#loginForm(method='POST', action='/login')
-                      .imgcontainer
-                        span.close(onclick="document.getElementById('id02').style.display='none'", title='Close Modal') &times;
-                        |  
-                      .container
-                        label
-                          b Email:
-                        |  
-                        input(id='loginemail', type='text', placeholder='Enter Email', name='email', required)
-                        |  
-                        label
-                          b Password:
-                        |  
-                        input(id='loginpassword', type='password', placeholder='Enter Password', name='password', required)
-                        |  
-                        button.signupbtn(type='submit', id="loginbutton") Login
-                        |  
-                        button.cancelbtn(type='button', onclick="document.getElementById('id02').style.display='none'") Cancel
-      h2#error-message= message
-      
+      footer.footer-distributed
+        .footer-left
+          h3
+            img#logobottom(src='/../img/gather.jpg', alt='', width='120', hight='120')
+          br
+          br
+          p.footer-company-name Gather-Leidsche-Rijn &copy; 2017
+        .footer-center
+          div
+            i.fa.fa-map-marker
+            p
+              span Pieter d' Hontlaan
+              |  Utrecht, Netherlands
+          div
+            i.fa.fa-phone
+            p +316 59419239
+          div
+            i.fa.fa-envelope
+            p
+              a(href='mailto:annecyjx@gmail.com') annecyjx@gmail.com
+        .footer-right
+          p.footer-company-about
+            span About the company
 
-    .container
-      p.setupFormTitle Fill the form and set up a new event
-      form#setupEventForm(method='POST' action='/setup')
-        .form-group
-          label(for='inputSubject') Subject：
-          |  
-          input#inputSubject.form-control(type='text', autocomplete="off", placeholder='subject of your event...',name='subjectInput')
-        .form-group
-          label(for='inputBrief') Event Brief：
-          |  
-          input#inputBrief.form-control(type='text', autocomplete="off", placeholder='better to include the date here...',name='briefInput')
-        .form-group
-          label(for='inputInitialJoin') Initial Participants：
-          |  
-          input#inputInitialJoin.form-control(type='number', min='0',step='1',placeholder='number only',name='initialJoinInput')
-        .form-group
-          label(for='inputLat') Latitude of Event Location：
-          |  
-          input#inputLat.form-control(type='number', step='0.000001', autocomplete="off",placeholder='please check latitude of the location on Googlemaps...',name='latInput')
-        .form-group
-          label(for='inputLng') Longitude of Event Location：
-          |  
-          input#inputLat.form-control(type='number',step='0.000001', autocomplete="off",placeholder='please check longtitude of the location on Googlemaps...',name='lngInput')
-        .form-group
-          label(for='inputDescription') Event Details：
-          textarea#inputDescription.form-control(rows='10', placeholder='more details of your event...',autocomplete="off",name='descriptionInput')
-        button.btn.btn-primary(type='submit') Submit
-          span.glyphicon.glyphicon-send
+            |  This great website was created to gather people who lives in Leidsche Rijn area. Share life and happiness. Thank you to Xuan!
+
+          .footer-icons
+            a(href='#')
+              i.fa.fa-facebook
+            a(href='#')
+              i.fa.fa-twitter
+            a(href='#')
+              i.fa.fa-linkedin
+            a(href='#')
+              i.fa.fa-github
+
+    else
+      .navbar-wrapper
+        nav.navbar.navbar-inverse.navbar-static-top
+          .navbar-header
+              button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+              |  
+              a.navbar-brand(href='/home') Gather-Leidsche-Rjin
+          #navbar.navbar-collapse.collapse
+              ul.nav.navbar-nav
+                  li
+                    a(href='/home') All Events
+                  li.active
+                    a(href='/setup') SetUp New Event!
+
+              .navbar-right
+                  button#signup(onclick="document.getElementById('id01').style.display='block'") SIGN UP
+                  #id01.modal
+                      form.modal-content.animate#signupForm(method='POST', action='/signup')
+                        span.close(onclick="document.getElementById('id01').style.display='none'", title='Close Modal') &times;
+                        |  
+                        .container
+                          label
+                            b Username:
+                          |  
+                          input(id='signupusername', type='text', placeholder='Enter Username', name='username', required)
+                          label
+                            b Email:
+                          |  
+                          input(id='signupemail', type='text', placeholder='Enter Email', name='email', required)
+                          |  
+                          label
+                            b Password:
+                          |  
+                          input(id='signuppassword', type='password', placeholder='Enter Password', name='password', required)
+                          label
+                            b Zipcode:
+                          |  
+                          input(id='signupzipcode', type='text', placeholder='Enter Zipcode', name='zipcode', required)
+                          .clearfix
+                            button.signupbtn(type='submit') Sign Up
+                            |
+                            button.cancelbtn(type='button', onclick="document.getElementById('id01').style.display='none'") Cancel
+
+              .navbar-right
+                  button.test#login(onclick="document.getElementById('id02').style.display='block'") LOGIN
+                  #id02.modal
+                      form.modal-content.animate#loginForm(method='POST', action='/login')
+                        .imgcontainer
+                          span.close(onclick="document.getElementById('id02').style.display='none'", title='Close Modal') &times;
+                          |  
+                        .container
+                          label
+                            b Email:
+                          |  
+                          input(id='loginemail', type='text', placeholder='Enter Email', name='email', required)
+                          |  
+                          label
+                            b Password:
+                          |  
+                          input(id='loginpassword', type='password', placeholder='Enter Password', name='password', required)
+                          |  
+                          button.signupbtn(type='submit', id="loginbutton") Login
+                          |  
+                          button.cancelbtn(type='button', onclick="document.getElementById('id02').style.display='none'") Cancel
+        h2#error-message= message
+
+      .container
+            p.setupFormTitle Please log in to set up a new event!
+
+      footer.footer-distributed(style="position:absolute; bottom:0px;")
+        .footer-left
+          h3
+            img#logobottom(src='/../img/gather.jpg', alt='', width='120', hight='120')
+          br
+          br
+          p.footer-company-name Gather-Leidsche-Rijn &copy; 2017
+        .footer-center
+          div
+            i.fa.fa-map-marker
+            p
+              span Pieter d' Hontlaan
+              |  Utrecht, Netherlands
+          div
+            i.fa.fa-phone
+            p +316 59419239
+          div
+            i.fa.fa-envelope
+            p
+              a(href='mailto:annecyjx@gmail.com') annecyjx@gmail.com
+        .footer-right
+          p.footer-company-about
+            span About the company
+
+            |  This great website was created to gather people who lives in Leidsche Rijn area. Share life and happiness. Thank you to Xuan!
+
+          .footer-icons
+            a(href='#')
+              i.fa.fa-facebook
+            a(href='#')
+              i.fa.fa-twitter
+            a(href='#')
+              i.fa.fa-linkedin
+            a(href='#')
+              i.fa.fa-github
+
+    
 
 
     button#myBtn(onclick='topFunction()', title='Go to top') Top
@@ -131,38 +231,4 @@ html
       document.documentElement.scrollTop = 0;
       }
 
-    footer.footer-distributed
-      .footer-left
-        h3
-          img#logobottom(src='/../img/gather.jpg', alt='', width='120', hight='120')
-        br
-        br
-        p.footer-company-name Gather-Leidsche-Rijn &copy; 2017
-      .footer-center
-        div
-          i.fa.fa-map-marker
-          p
-            span Pieter d' Hontlaan
-            |  Utrecht, Netherlands
-        div
-          i.fa.fa-phone
-          p +316 59419239
-        div
-          i.fa.fa-envelope
-          p
-            a(href='mailto:annecyjx@gmail.com') annecyjx@gmail.com
-      .footer-right
-        p.footer-company-about
-          span About the company
 
-          |  This great website was created to gather people who lives in Leidsche Rijn area. Share life and happiness. Thank you to Xuan!
-
-        .footer-icons
-          a(href='#')
-            i.fa.fa-facebook
-          a(href='#')
-            i.fa.fa-twitter
-          a(href='#')
-            i.fa.fa-linkedin
-          a(href='#')
-            i.fa.fa-github

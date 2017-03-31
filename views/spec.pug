@@ -14,140 +14,216 @@ html
     script(type='text/javascript' src='/../js/custom.js')
 
   body
-    .navbar-wrapper
-      nav.navbar.navbar-inverse.navbar-static-top
-        .navbar-header
-            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-            |  
-            a.navbar-brand(href='/home') Gather-Leidsche-Rjin
-        #navbar.navbar-collapse.collapse
-            ul.nav.navbar-nav
-                li
-                  a(href='/home') Back to Home
-                li
-                  a(href='/setup') SetUp New Event!
+    if user 
+      .navbar-wrapper
+        nav.navbar.navbar-inverse.navbar-static-top
+          .navbar-header
+              button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+              |  
+              a.navbar-brand(href='/home') Gather-Leidsche-Rjin
+          #navbar.navbar-collapse.collapse
+              ul.nav.navbar-nav
+                  li
+                    a(href='/home') Back to Home
+                  li
+                    a(href='/setup') SetUp New Event!
 
-            .navbar-right
-                button#signup(onclick="document.getElementById('id01').style.display='block'") SIGN UP
-                #id01.modal
-                    form.modal-content.animate#signupForm(method='POST', action='/signup')
-                      span.close(onclick="document.getElementById('id01').style.display='none'", title='Close Modal') &times;
-                      |  
-                      .container
-                        label
-                          b Username:
-                        |  
-                        input(id='signupusername', type='text', placeholder='Enter Username', name='username', required)
-                        label
-                          b Email:
-                        |  
-                        input(id='signupemail', type='text', placeholder='Enter Email', name='email', required)
-                        |  
-                        label
-                          b Password:
-                        |  
-                        input(id='signuppassword', type='password', placeholder='Enter Password', name='password', required)
-                        label
-                          b Zipcode:
-                        |  
-                        input(id='signupzipcode', type='text', placeholder='Enter Zipcode', name='zipcode', required)
-                        .clearfix
-                          button.signupbtn(type='submit') Sign Up
-                          |
-                          button.cancelbtn(type='button', onclick="document.getElementById('id01').style.display='none'") Cancel
+              .navbar-right
+                  button#unicorn.welcome
+                    a(href="/logout") LOGOUT
+              .navbar-right
+                  h2.welcome(id='foo' data-target=user.id) Welcome #{user.username}!
 
-            .navbar-right
-                button.test#login(onclick="document.getElementById('id02').style.display='block'") LOGIN
-                #id02.modal
-                    form.modal-content.animate#loginForm(method='POST', action='/login')
-                      .imgcontainer
-                        span.close(onclick="document.getElementById('id02').style.display='none'", title='Close Modal') &times;
-                        |  
-                      .container
-                        label
-                          b Email:
-                        |  
-                        input(id='loginemail', type='text', placeholder='Enter Email', name='email', required)
-                        |  
-                        label
-                          b Password:
-                        |  
-                        input(id='loginpassword', type='password', placeholder='Enter Password', name='password', required)
-                        |  
-                        button.signupbtn(type='submit', id="loginbutton") Login
-                        |  
-                        button.cancelbtn(type='button', onclick="document.getElementById('id02').style.display='none'") Cancel
-      h2#error-message= message
-            
-    .container         
-      .header
-        p.specEventTitle The event you are interested in:
-          .eventsubject         
-            p(class='eventId', id=eventInfo.id) #{eventInfo.subject}
-          p#eventbrief #{eventInfo.brief}
-          p#eventdescription #{eventInfo.description}
+      .container         
+        .header
+          p.specEventTitle The event you are interested in:
+            .eventsubject         
+              p(class='eventId', id=eventInfo.id) #{eventInfo.subject}
+            p#eventbrief #{eventInfo.brief}
+            p#eventdescription #{eventInfo.description}
 
-          h3#jointitle Current participants
-          each join in eventInfo.joins
-            p#joinamount #{join.participants}
-          .row
-            h3#requesttitle How many of you would like to join:
+            h3#jointitle Current participants
+            each join in eventInfo.joins
+              p#joinamount #{join.participants}
             .row
-              form(name='join',id='joinForm',autocomplete="off")
-                .input-field.col.s12
-                  input(id='joinInput',type='number', min='0',step='1',placeholder='number only',autocomplete="off",name='joinInputNumber')
-                .input-field.col.s12
-                  button#joinbutton.btn.btn-primary(type='submit') Join
+              h3#requesttitle How many of you would like to join:
+              .row
+                form(name='join',id='joinForm',autocomplete="off")
+                  .input-field.col.s12
+                    input(id='joinInput',type='number', min='0',step='1',placeholder='number only',autocomplete="off",name='joinInputNumber')
+                  .input-field.col.s12
+                    button#joinbutton.btn.btn-primary(type='submit') Join
 
 
 
-    div.panellocation#locationDetail
-      h2#locationtitle Check the location:
-      h2#hiddenlat #{eventInfo.lat}
-      h2#hiddenlng #{eventInfo.lng}
+      div.panellocation#locationDetail
+        h2#locationtitle Check the location:
+        h2#hiddenlat #{eventInfo.lat}
+        h2#hiddenlng #{eventInfo.lng}
 
-    div.specGooglemaps#googleMap
-      |  &nbsp;     
-      script.
-        function initMap() {
-          var directionsDisplay = new google.maps.DirectionsRenderer;
-          var directionsService = new google.maps.DirectionsService;
-          // Create a map and center it on Leidsche Rijn station
-          var mapProp= {
-            center: new google.maps.LatLng(document.getElementById("hiddenlat").innerHTML,document.getElementById("hiddenlng").innerHTML),
-            zoom:12,
-          }      
-          var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-          directionsDisplay.setMap(map);
+      div.specGooglemaps#googleMap
+        |  &nbsp;     
+        script.
+          function initMap() {
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            var directionsService = new google.maps.DirectionsService;
+            // Create a map and center it on Leidsche Rijn station
+            var mapProp= {
+              center: new google.maps.LatLng(document.getElementById("hiddenlat").innerHTML,document.getElementById("hiddenlng").innerHTML),
+              zoom:12,
+            }      
+            var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+            directionsDisplay.setMap(map);
 
-            markerA = new google.maps.Marker({
-                position: new google.maps.LatLng(document.getElementById("hiddenlat").innerHTML,document.getElementById("hiddenlng").innerHTML),
-                label:'WE ARE HERE!',
-                map:map
-          })
-        }
+              markerA = new google.maps.Marker({
+                  position: new google.maps.LatLng(document.getElementById("hiddenlat").innerHTML,document.getElementById("hiddenlng").innerHTML),
+                  label:'WE ARE HERE!',
+                  map:map
+            })
+          }
 
-    div.panelcomment
-      .row
-        h3#commenttitle Come to comment:
+      div.panelcomment
         .row
-          form(onsubmit='return validateForm()', name='commentForm',id='commentForm',autocomplete="off")
-            .input-field.col.s12
-              input#body.validate(type='text', name='body',placeholder='what do you think of it?',maxlength=1024, required)
-            .input-field.col.s12
-              button#commentbutton.btn.btn-primary(type='submit') Send         
+          h3#commenttitle Come to comment:
+          .row
+            form(onsubmit='return validateForm()', name='commentForm',id='commentForm',autocomplete="off")
+              .input-field.col.s12
+                input#body.validate(type='text', name='body',placeholder='what do you think of it?',maxlength=1024, required)
+              .input-field.col.s12
+                button#commentbutton.btn.btn-primary(type='submit') Send         
 
-      each comment in eventInfo.comments
-        p#comment-box #{comment.body}
-      div#result-box
+        each comment in eventInfo.comments
+          p#comment-box #{comment.body}
+        div#result-box
+
+
+    else
+      .navbar-wrapper
+        nav.navbar.navbar-inverse.navbar-static-top
+          .navbar-header
+              button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+              |  
+              a.navbar-brand(href='/home') Gather-Leidsche-Rjin
+          #navbar.navbar-collapse.collapse
+              ul.nav.navbar-nav
+                  li
+                    a(href='/home') Back to Home
+                  li
+                    a(href='/setup') SetUp New Event!
+
+              .navbar-right
+                  button#signup(onclick="document.getElementById('id01').style.display='block'") SIGN UP
+                  #id01.modal
+                      form.modal-content.animate#signupForm(method='POST', action='/signup')
+                        span.close(onclick="document.getElementById('id01').style.display='none'", title='Close Modal') &times;
+                        |  
+                        .container
+                          label
+                            b Username:
+                          |  
+                          input(id='signupusername', type='text', placeholder='Enter Username', name='username', required)
+                          label
+                            b Email:
+                          |  
+                          input(id='signupemail', type='text', placeholder='Enter Email', name='email', required)
+                          |  
+                          label
+                            b Password:
+                          |  
+                          input(id='signuppassword', type='password', placeholder='Enter Password', name='password', required)
+                          label
+                            b Zipcode:
+                          |  
+                          input(id='signupzipcode', type='text', placeholder='Enter Zipcode', name='zipcode', required)
+                          .clearfix
+                            button.signupbtn(type='submit') Sign Up
+                            |
+                            button.cancelbtn(type='button', onclick="document.getElementById('id01').style.display='none'") Cancel
+
+              .navbar-right
+                  button.test#login(onclick="document.getElementById('id02').style.display='block'") LOGIN
+                  #id02.modal
+                      form.modal-content.animate#loginForm(method='POST', action='/login')
+                        .imgcontainer
+                          span.close(onclick="document.getElementById('id02').style.display='none'", title='Close Modal') &times;
+                          |  
+                        .container
+                          label
+                            b Email:
+                          |  
+                          input(id='loginemail', type='text', placeholder='Enter Email', name='email', required)
+                          |  
+                          label
+                            b Password:
+                          |  
+                          input(id='loginpassword', type='password', placeholder='Enter Password', name='password', required)
+                          |  
+                          button.signupbtn(type='submit', id="loginbutton") Login
+                          |  
+                          button.cancelbtn(type='button', onclick="document.getElementById('id02').style.display='none'") Cancel
+        h2#error-message= message
+              
+      .container         
+        .header
+          p.specEventTitle The event you are interested in:
+            .eventsubject         
+              p(class='eventId', id=eventInfo.id) #{eventInfo.subject}
+            p#eventbrief #{eventInfo.brief}
+            p#eventdescription #{eventInfo.description}
+
+            h3#jointitle Current participants
+            each join in eventInfo.joins
+              p#joinamount #{join.participants}
+            .row
+              h3#requesttitle Please log in to join us!
+
+      div.panellocation#locationDetail
+        h2#locationtitle Check the location:
+        h2#hiddenlat #{eventInfo.lat}
+        h2#hiddenlng #{eventInfo.lng}
+
+      div.specGooglemaps#googleMap
+        |  &nbsp;     
+        script.
+          function initMap() {
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            var directionsService = new google.maps.DirectionsService;
+            // Create a map and center it on Leidsche Rijn station
+            var mapProp= {
+              center: new google.maps.LatLng(document.getElementById("hiddenlat").innerHTML,document.getElementById("hiddenlng").innerHTML),
+              zoom:12,
+            }      
+            var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+            directionsDisplay.setMap(map);
+
+              markerA = new google.maps.Marker({
+                  position: new google.maps.LatLng(document.getElementById("hiddenlat").innerHTML,document.getElementById("hiddenlng").innerHTML),
+                  label:'WE ARE HERE!',
+                  map:map
+            })
+          }
+
+      div.panelcomment
+        .row
+          h3#commenttitle Please log in to give your comments!    
+
+        each comment in eventInfo.comments
+          p#comment-box #{comment.body}
+        div#result-box
+
+
+
 
     button#myBtn(onclick='topFunction()', title='Go to top') Top
     script.
-      // When the user scrolls down 20px from the top of the document, show the button
       window.onscroll = function() {scrollFunction()};
       function scrollFunction() {
       if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
@@ -156,7 +232,6 @@ html
       document.getElementById("myBtn").style.display = "none";
       }
       }
-      // When the user clicks on the button, scroll to the top of the document
       function topFunction() {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
